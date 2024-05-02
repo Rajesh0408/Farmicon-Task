@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,8 +71,73 @@ class _NetworkPageState extends State<NetworkPage> {
       'company': 'IIT Roorkee',
     },
   ];
+  List? SearchMap= [
+    {
+      'name': 'Vishal Pandey',
+      'company': 'IIT Roorkee',
+    },
+    {
+      'name': 'Rajesh',
+      'company': 'IIT Chennai',
+    },
+    {
+      'name': 'Arun Kumar',
+      'company': 'KCT',
+    },
+    {
+      'name': 'HariHaran',
+      'company': 'IIT Bombay',
+    },
+    {
+      'name': 'Gokul Ramana',
+      'company': 'Anna University',
+    },
+    {
+      'name': 'Raja',
+      'company': 'IIT Roorkee',
+    },
+    {
+      'name': 'Himanesh',
+      'company': 'Anna University',
+    },
+    {
+      'name': 'Arunachalam',
+      'company': 'IIT Roorkee',
+    },
+    {
+      'name': 'Gowtham',
+      'company': 'Anna University',
+    },
+    {
+      'name': 'Shiva',
+      'company': 'IIT Roorkee',
+    },
+    {
+      'name': 'Hema',
+      'company': 'IIT Roorkee',
+    },
+    {
+      'name': 'Kavitha',
+      'company': 'IIT Roorkee',
+    },
+    {
+      'name': 'Lakshmi',
+      'company': 'IIT Roorkee',
+    },
+    {
+      'name': 'Hema Chandran',
+      'company': 'IIT Roorkee',
+    },
+  ];
   SearchController controller = SearchController();
   String searchText="";
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,19 +146,17 @@ class _NetworkPageState extends State<NetworkPage> {
       body: Flexible(
         child: Column(
           children: [
-            SizedBox(height: 45,),
-            const Row(
+            const SizedBox(height: 45,),
+             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 18.0,top: 8, right: 6, bottom: 8),
+                  padding: const EdgeInsets.only(left: 18.0,top: 8, right: 6, bottom: 8),
                   child: SizedBox(
                     width: 350,
                     child: SearchBar(
                       hintText: 'Search',
                       controller: controller,
-                      leading: Icon(Icons.search),
-                      padding: MaterialStatePropertyAll<EdgeInsets>(
-                          EdgeInsets.symmetric(horizontal: 16.0)),
+                      leading: const Icon(Icons.search),
                       onChanged: (text) {
                         setState(() {
                           searchText = text.toString();
@@ -104,7 +166,7 @@ class _NetworkPageState extends State<NetworkPage> {
                     ),
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(4.0),
                   child: Icon(
                     Icons.menu,
@@ -124,8 +186,8 @@ class _NetworkPageState extends State<NetworkPage> {
                     width: 90,
                     height: 50,
                     child: Card(
-                      child: Center(child: Text('View All')),
                       color: Colors.purple,
+                      child: Center(child: Text('View All')),
                     ),
                   ),
                   Padding(
@@ -224,14 +286,14 @@ class _NetworkPageState extends State<NetworkPage> {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                             ),
                             Container(
                               width: 45,
                               height: 55,
                               clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                               ),
                               child: Image.network(
@@ -300,7 +362,7 @@ class _NetworkPageState extends State<NetworkPage> {
                   )),
             ),
             Expanded(
-              child: ListView.builder(itemCount: map.length,itemBuilder: (context, index) {
+              child: ListView.builder(itemCount: SearchMap?.length,itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(left: 20.0, top: 0, right: 20, bottom: 50),
                   child: Container(
@@ -344,15 +406,24 @@ class _NetworkPageState extends State<NetworkPage> {
                               height: 30,
                             ),
                             Text(
-                              "${map[index]['name']}",
+                              "${SearchMap?[index]['name']}",
                               style: TextStyle(color: Colors.white, fontSize: 18),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 2.0),
-                              child: Text(
-                                "${map[index]['company']}",
-                                style: TextStyle(color: Colors.white, fontSize: 12),
-                              ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.pin_drop,
+                                  color: Colors.white,
+                                  size: 17,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 2.0),
+                                  child: Text(
+                                    "${SearchMap?[index]['company']}",
+                                    style: TextStyle(color: Colors.white, fontSize: 12),
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 15,
@@ -408,6 +479,11 @@ class _NetworkPageState extends State<NetworkPage> {
   }
 
   void search(String value) {
-
+      SearchMap=[];
+      for(int i=0; i<map.length;i++) {
+        if(map[i]['name'].toLowerCase().contains(value.toLowerCase())) {
+            SearchMap?.add(map[i]);
+        }
+      }
   }
 }
