@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   curved_navigation_bar: 1.0.3 #latest version
   flutter_slidable: ^3.1.0
+  mobile_scanner: ^4.0.0
+  pretty_qr_code: ^3.2.1
 
 
 
@@ -67,6 +69,8 @@ flutter:
      - assets/pin.png
      - assets/clear.png
      - assets/network.png
+     - assets/flash.png
+     - assets/1x.svg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
