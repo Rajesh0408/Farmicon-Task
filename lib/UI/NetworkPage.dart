@@ -549,21 +549,45 @@ class _NetworkPageState extends State<NetworkPage> {
             });
           },
           items: [
-            Icon(
-              Icons.explore_rounded,
-              color: index == 0 ? Colors.deepPurple : Colors.white,
-              size: index == 0 ? 60 : 40,
+            Column(
+              children: [
+                Icon(
+                  Icons.explore_rounded,
+                  color: index == 0 ? Colors.deepPurple : Colors.white,
+                  size: index == 0 ? 60 : 40,
+                ),
+                Text(
+                  "Explore",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
             ),
-            Icon(
-              Icons.qr_code_scanner,
-              color: index == 1 ? Colors.deepPurple : Colors.white,
-              size: index == 1 ? 60 : 40,
+            Column(
+              children: [
+                Icon(
+                  Icons.qr_code_scanner,
+                  color: index == 1 ? Colors.deepPurple : Colors.white,
+                  size: index == 1 ? 60 : 40,
+                ),
+                Text(
+                  "Scan code",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
             ),
-            Image.asset(
-              'assets/network.png',
-              color: index == 2 ? Colors.deepPurple : Colors.white,
-              height: index == 2 ? 60 : 40,
-              width: index == 2 ? 60 : 40,
+            Column(
+              children: [
+                Image.asset(
+                  'assets/network.png',
+                  color: index == 2 ? Colors.deepPurple : Colors.white,
+                  height: index == 2 ? 60 : 40,
+                  width: index == 2 ? 60 : 40,
+                ),
+                Text(
+                  "Network",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
             )
           ],
         ),
@@ -575,11 +599,16 @@ class _NetworkPageState extends State<NetworkPage> {
           appBar: AppBar(
             backgroundColor: bg,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white,), onPressed: () { setState(() {
-                onTapQR=false;
-              }); },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {
+                  onTapQR = false;
+                });
+              },
             ),
-
           ),
           body: Padding(
             padding: EdgeInsets.all(10.0),
@@ -587,7 +616,7 @@ class _NetworkPageState extends State<NetworkPage> {
               child: Container(
                 height: 300,
                 width: 300,
-                child: PrettyQrView.data(data: 'QRCODE'),
+                child: PrettyQrView.data(data: 'NIKHIL PANWAR'),
               ),
             ),
           ),
@@ -601,21 +630,45 @@ class _NetworkPageState extends State<NetworkPage> {
               });
             },
             items: [
-              Icon(
-                Icons.explore_rounded,
-                color: index == 0 ? Colors.deepPurple : Colors.white,
-                size: index == 0 ? 60 : 40,
+              Column(
+                children: [
+                  Icon(
+                    Icons.explore_rounded,
+                    color: index == 0 ? Colors.deepPurple : Colors.white,
+                    size: index == 0 ? 60 : 40,
+                  ),
+                  Text(
+                    "Explore",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
               ),
-              Icon(
-                Icons.qr_code_scanner,
-                color: index == 1 ? Colors.deepPurple : Colors.white,
-                size: index == 1 ? 60 : 40,
+              Column(
+                children: [
+                  Icon(
+                    Icons.qr_code_scanner,
+                    color: index == 1 ? Colors.deepPurple : Colors.white,
+                    size: index == 1 ? 60 : 40,
+                  ),
+                  Text(
+                    "Scan code",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
               ),
-              Image.asset(
-                'assets/network.png',
-                color: index == 2 ? Colors.deepPurple : Colors.white,
-                height: index == 2 ? 60 : 40,
-                width: index == 2 ? 60 : 40,
+              Column(
+                children: [
+                  Image.asset(
+                    'assets/network.png',
+                    color: index == 2 ? Colors.deepPurple : Colors.white,
+                    height: index == 2 ? 60 : 40,
+                    width: index == 2 ? 60 : 40,
+                  ),
+                  Text(
+                    "Network",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
               )
             ],
           ),
@@ -642,7 +695,7 @@ class _NetworkPageState extends State<NetworkPage> {
                         ),
                       ),
                       clipBehavior: Clip.antiAlias,
-                      child:ClipOval(
+                      child: ClipOval(
                         child: Image.network(
                           'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbiUyMGluJTIwY29hdHxlbnwwfHwwfHx8MA%3D%3D',
                           fit: BoxFit.cover,
@@ -679,9 +732,9 @@ class _NetworkPageState extends State<NetworkPage> {
                       setState(() {
                         print("heyy");
                         setState(() {
-                          onTapQR=true;
-                        });});
-
+                          onTapQR = true;
+                        });
+                      });
                     },
                   ),
                   const SizedBox(
@@ -703,17 +756,20 @@ class _NetworkPageState extends State<NetworkPage> {
                             for (final barcode in barcodes) {
                               print('Barcode found! ${barcode.rawValue}');
                             }
-                            if (image != null) {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text(barcodes.first.rawValue ?? ""),
-                                      content: Image(
-                                        image: MemoryImage(image),
-                                      ),
-                                    );
-                                  });
+                            if (barcodes.first.rawValue == "NIKHIL PANWAR") {
+                              if (image != null) {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title:
+                                            Text(barcodes.first.rawValue ?? ""),
+                                        content: Image(
+                                          image: MemoryImage(image),
+                                        ),
+                                      );
+                                    });
+                              }
                             }
                           },
                         ),
@@ -723,7 +779,7 @@ class _NetworkPageState extends State<NetworkPage> {
                             height: 40,
                             width: 120,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(25),
                               color: clear,
                             ),
                             child: Row(
@@ -774,10 +830,10 @@ class _NetworkPageState extends State<NetworkPage> {
                                     clipBehavior: Clip.antiAlias,
                                     child: Center(
                                         child: Text(
-                                          '1x',
-                                          style: TextStyle(
-                                              color: Colors.white, fontSize: 20),
-                                        ))),
+                                      '1x',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ))),
                               ],
                             ),
                           ),
@@ -821,7 +877,9 @@ class _NetworkPageState extends State<NetworkPage> {
                     width: 300,
                     child: const TextField(
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25))),
                           hintText: 'Enter your event name',
                           hintStyle: TextStyle(
                             color: Colors.blueGrey,
@@ -871,27 +929,50 @@ class _NetworkPageState extends State<NetworkPage> {
               });
             },
             items: [
-              Icon(
-                Icons.explore_rounded,
-                color: index == 0 ? Colors.deepPurple : Colors.white,
-                size: index == 0 ? 60 : 40,
+              Column(
+                children: [
+                  Icon(
+                    Icons.explore_rounded,
+                    color: index == 0 ? Colors.deepPurple : Colors.white,
+                    size: index == 0 ? 60 : 40,
+                  ),
+                  Text(
+                    "Explore",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
               ),
-              Icon(
-                Icons.qr_code_scanner,
-                color: index == 1 ? Colors.deepPurple : Colors.white,
-                size: index == 1 ? 60 : 40,
+              Column(
+                children: [
+                  Icon(
+                    Icons.qr_code_scanner,
+                    color: index == 1 ? Colors.deepPurple : Colors.white,
+                    size: index == 1 ? 60 : 40,
+                  ),
+                  Text(
+                    "Scan code",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
               ),
-              Image.asset(
-                'assets/network.png',
-                color: index == 2 ? Colors.deepPurple : Colors.white,
-                height: index == 2 ? 60 : 40,
-                width: index == 2 ? 60 : 40,
+              Column(
+                children: [
+                  Image.asset(
+                    'assets/network.png',
+                    color: index == 2 ? Colors.deepPurple : Colors.white,
+                    height: index == 2 ? 60 : 40,
+                    width: index == 2 ? 60 : 40,
+                  ),
+                  Text(
+                    "Network",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
               )
             ],
           ),
         );
       }
-
     } else {
       return Scaffold(
         backgroundColor: bg,
@@ -910,21 +991,45 @@ class _NetworkPageState extends State<NetworkPage> {
             });
           },
           items: [
-            Icon(
-              Icons.explore_rounded,
-              color: index == 0 ? Colors.deepPurple : Colors.white,
-              size: index == 0 ? 60 : 40,
+            Column(
+              children: [
+                Icon(
+                  Icons.explore_rounded,
+                  color: index == 0 ? Colors.deepPurple : Colors.white,
+                  size: index == 0 ? 60 : 40,
+                ),
+                Text(
+                  "Explore",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
             ),
-            Icon(
-              Icons.qr_code_scanner,
-              color: index == 1 ? Colors.deepPurple : Colors.white,
-              size: index == 1 ? 60 : 40,
+            Column(
+              children: [
+                Icon(
+                  Icons.qr_code_scanner,
+                  color: index == 1 ? Colors.deepPurple : Colors.white,
+                  size: index == 1 ? 60 : 40,
+                ),
+                Text(
+                  "Scan code",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
             ),
-            Image.asset(
-              'assets/network.png',
-              color: index == 2 ? Colors.deepPurple : Colors.white,
-              height: index == 2 ? 60 : 40,
-              width: index == 2 ? 60 : 40,
+            Column(
+              children: [
+                Image.asset(
+                  'assets/network.png',
+                  color: index == 2 ? Colors.deepPurple : Colors.white,
+                  height: index == 2 ? 60 : 40,
+                  width: index == 2 ? 60 : 40,
+                ),
+                Text(
+                  "Network",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
             )
           ],
         ),
@@ -940,6 +1045,4 @@ class _NetworkPageState extends State<NetworkPage> {
       }
     }
   }
-
-
 }
