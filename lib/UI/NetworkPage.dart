@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 class NetworkPage extends StatefulWidget {
   const NetworkPage({super.key});
@@ -139,6 +140,7 @@ class _NetworkPageState extends State<NetworkPage> {
   int index = 2;
   bool switch1 = true;
   bool switch2 = true;
+  bool onTapQR = false;
 
   @override
   void dispose() {
@@ -567,270 +569,329 @@ class _NetworkPageState extends State<NetworkPage> {
         ),
       );
     } else if (index == 1) {
-      return Scaffold(
-        backgroundColor: bg,
-        body: ListView(
-          children: [
-            Column(
-              children: [
-                SizedBox(
-                  height: 70,
-                ),
-                Center(
-                  child: Container(
-                    height: 80,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.purple, // Set the color of the border
-                        width: 4, // Set the width of the border
-                      ),
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    child:ClipOval(
-                      child: Image.network(
-                        'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbiUyMGluJTIwY29hdHxlbnwwfHwwfHx8MA%3D%3D',
-                        fit: BoxFit.cover,
-                        width: 80,
-                        height: 80,
-                      ),
-                    ),
+      if (onTapQR) {
+        return Scaffold(
+          backgroundColor: bg,
+          appBar: AppBar(
+            backgroundColor: bg,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white,), onPressed: () { setState(() {
+                onTapQR=false;
+              }); },
+            ),
+
+          ),
+          body: Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Center(
+              child: Container(
+                height: 300,
+                width: 300,
+                child: PrettyQrView.data(data: 'QRCODE'),
+              ),
+            ),
+          ),
+          bottomNavigationBar: CurvedNavigationBar(
+            backgroundColor: Colors.black26,
+            color: Colors.transparent,
+            animationDuration: Duration(milliseconds: 500),
+            onTap: (ind) {
+              setState(() {
+                index = ind;
+              });
+            },
+            items: [
+              Icon(
+                Icons.explore_rounded,
+                color: index == 0 ? Colors.deepPurple : Colors.white,
+                size: index == 0 ? 60 : 40,
+              ),
+              Icon(
+                Icons.qr_code_scanner,
+                color: index == 1 ? Colors.deepPurple : Colors.white,
+                size: index == 1 ? 60 : 40,
+              ),
+              Image.asset(
+                'assets/network.png',
+                color: index == 2 ? Colors.deepPurple : Colors.white,
+                height: index == 2 ? 60 : 40,
+                width: index == 2 ? 60 : 40,
+              )
+            ],
+          ),
+        );
+      } else {
+        return Scaffold(
+          backgroundColor: bg,
+          body: ListView(
+            children: [
+              Column(
+                children: [
+                  SizedBox(
+                    height: 70,
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "NIKHIL PANWAR",
-                  style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                GestureDetector(
-                  child: Text(
-                    "Show my QR code",
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.white,
-                        decorationThickness: 2),
-                  ),
-                  onTap: () {
-                    
-                  },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: 300,
-                  width: 300,
-                  child: Stack(
-                    children: [
-                      MobileScanner(
-                        controller: MobileScannerController(
-                          detectionSpeed: DetectionSpeed.noDuplicates,
-                          returnImage: true,
+                  Center(
+                    child: Container(
+                      height: 80,
+                      width: 80,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.purple, // Set the color of the border
+                          width: 4, // Set the width of the border
                         ),
-                        onDetect: (capture) {
-                          final List<Barcode> barcodes = capture.barcodes;
-                          final Uint8List? image = capture.image;
-                          for (final barcode in barcodes) {
-                            print('Barcode found! ${barcode.rawValue}');
-                          }
-                          if (image != null) {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(barcodes.first.rawValue ?? ""),
-                                    content: Image(
-                                      image: MemoryImage(image),
-                                    ),
-                                  );
-                                });
-                          }
-                        },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 240.0, left: 90),
-                        child: Container(
-                          height: 40,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: clear,
+                      clipBehavior: Clip.antiAlias,
+                      child:ClipOval(
+                        child: Image.network(
+                          'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fG1hbiUyMGluJTIwY29hdHxlbnwwfHwwfHx8MA%3D%3D',
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: 80,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    "NIKHIL PANWAR",
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  GestureDetector(
+                    child: const Text(
+                      "Show my QR code",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.white,
+                          decorationThickness: 2),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        print("heyy");
+                        setState(() {
+                          onTapQR=true;
+                        });});
+
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: 300,
+                    width: 300,
+                    child: Stack(
+                      children: [
+                        MobileScanner(
+                          controller: MobileScannerController(
+                            detectionSpeed: DetectionSpeed.noDuplicates,
+                            returnImage: true,
                           ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 7,
-                              ),
-                              Container(
-                                height: 30,
-                                width: 30,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.black),
-                                clipBehavior: Clip.antiAlias,
-                                child: Icon(
-                                  Icons.image,
-                                  color: Colors.white,
+                          onDetect: (capture) {
+                            final List<Barcode> barcodes = capture.barcodes;
+                            final Uint8List? image = capture.image;
+                            for (final barcode in barcodes) {
+                              print('Barcode found! ${barcode.rawValue}');
+                            }
+                            if (image != null) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(barcodes.first.rawValue ?? ""),
+                                      content: Image(
+                                        image: MemoryImage(image),
+                                      ),
+                                    );
+                                  });
+                            }
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 240.0, left: 90),
+                          child: Container(
+                            height: 40,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: clear,
+                            ),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 7,
                                 ),
-                                // child: Image.asset(
-                                //   'assets/flash.png',
-                                //   color: Colors.white,
-                                // ),
-                              ),
-                              SizedBox(
-                                width: 7,
-                              ),
-                              Container(
-                                height: 30,
-                                width: 30,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.black),
-                                clipBehavior: Clip.antiAlias,
-                                child: Image.asset(
-                                  'assets/flash.png',
-                                  color: Colors.white,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 7,
-                              ),
-                              Container(
+                                Container(
                                   height: 30,
                                   width: 30,
                                   decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Colors.black),
                                   clipBehavior: Clip.antiAlias,
-                                  child: Center(
-                                      child: Text(
-                                    '1x',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20),
-                                  ))),
-                            ],
+                                  child: Icon(
+                                    Icons.image,
+                                    color: Colors.white,
+                                  ),
+                                  // child: Image.asset(
+                                  //   'assets/flash.png',
+                                  //   color: Colors.white,
+                                  // ),
+                                ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.black),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: Image.asset(
+                                    'assets/flash.png',
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.black),
+                                    clipBehavior: Clip.antiAlias,
+                                    child: Center(
+                                        child: Text(
+                                          '1x',
+                                          style: TextStyle(
+                                              color: Colors.white, fontSize: 20),
+                                        ))),
+                              ],
+                            ),
                           ),
-                        ),
-                      )
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 70,
+                      ),
+                      Text(
+                        "Event Mode",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 110,
+                      ),
+                      Switch(
+                          value: switch1,
+                          activeColor: Colors.deepPurple,
+                          onChanged: (bool value) {
+                            setState(() {
+                              switch1 = value;
+                            });
+                          })
                     ],
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 70,
-                    ),
-                    Text(
-                      "Event Mode",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      width: 110,
-                    ),
-                    Switch(
-                        value: switch1,
-                        activeColor: Colors.deepPurple,
-                        onChanged: (bool value) {
-                          setState(() {
-                            switch1 = value;
-                          });
-                        })
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 40,
-                  width: 300,
-                  child: const TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Enter your event name',
-                        hintStyle: TextStyle(
-                          color: Colors.blueGrey,
-                        )),
-                    cursorColor: Colors.white,
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 70,
+                  Container(
+                    height: 40,
+                    width: 300,
+                    child: const TextField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter your event name',
+                          hintStyle: TextStyle(
+                            color: Colors.blueGrey,
+                          )),
+                      cursorColor: Colors.white,
                     ),
-                    Text(
-                      "Share Your Info",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      width: 75,
-                    ),
-                    Switch(
-                        value: switch2,
-                        activeColor: Colors.deepPurple,
-                        onChanged: (bool value) {
-                          setState(() {
-                            switch2 = value;
-                          });
-                        })
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-        bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.black26,
-          color: Colors.transparent,
-          animationDuration: const Duration(milliseconds: 500),
-          onTap: (ind) {
-            setState(() {
-              index = ind;
-            });
-          },
-          items: [
-            Icon(
-              Icons.explore_rounded,
-              color: index == 0 ? Colors.deepPurple : Colors.white,
-              size: index == 0 ? 60 : 40,
-            ),
-            Icon(
-              Icons.qr_code_scanner,
-              color: index == 1 ? Colors.deepPurple : Colors.white,
-              size: index == 1 ? 60 : 40,
-            ),
-            Image.asset(
-              'assets/network.png',
-              color: index == 2 ? Colors.deepPurple : Colors.white,
-              height: index == 2 ? 60 : 40,
-              width: index == 2 ? 60 : 40,
-            )
-          ],
-        ),
-      );
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 70,
+                      ),
+                      Text(
+                        "Share Your Info",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 75,
+                      ),
+                      Switch(
+                          value: switch2,
+                          activeColor: Colors.deepPurple,
+                          onChanged: (bool value) {
+                            setState(() {
+                              switch2 = value;
+                            });
+                          })
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          bottomNavigationBar: CurvedNavigationBar(
+            backgroundColor: Colors.black26,
+            color: Colors.transparent,
+            animationDuration: const Duration(milliseconds: 500),
+            onTap: (ind) {
+              setState(() {
+                index = ind;
+              });
+            },
+            items: [
+              Icon(
+                Icons.explore_rounded,
+                color: index == 0 ? Colors.deepPurple : Colors.white,
+                size: index == 0 ? 60 : 40,
+              ),
+              Icon(
+                Icons.qr_code_scanner,
+                color: index == 1 ? Colors.deepPurple : Colors.white,
+                size: index == 1 ? 60 : 40,
+              ),
+              Image.asset(
+                'assets/network.png',
+                color: index == 2 ? Colors.deepPurple : Colors.white,
+                height: index == 2 ? 60 : 40,
+                width: index == 2 ? 60 : 40,
+              )
+            ],
+          ),
+        );
+      }
+
     } else {
       return Scaffold(
         backgroundColor: bg,
@@ -879,4 +940,6 @@ class _NetworkPageState extends State<NetworkPage> {
       }
     }
   }
+
+
 }
